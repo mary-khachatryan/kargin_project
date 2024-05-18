@@ -28,7 +28,14 @@ for i in new_df["Main_Actors"]:
               all_names.append(k.strip(" "))
         else:
             all_names.append(name)
-print(all_names,type(all_names[0]))
 
 unique_names = []
+unique_names_count ={}
+for i in all_names:
+    if i not in unique_names:
+        unique_names.append(i)
+        unique_names_count[i] = all_names.count(i)
+        
+print(unique_names_count)
+
 
