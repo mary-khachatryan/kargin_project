@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from itertools import chain
+import plotly.express as px
 df = pd.read_csv('data_csv.csv')
 for i in df.columns:
     if 'Unnamed:' in i:
@@ -36,6 +36,9 @@ for i in all_names:
         unique_names.append(i)
         unique_names_count[i] = all_names.count(i)
         
-print(unique_names_count)
 
-
+df_unique_names = pd.DataFrame(list(unique_names_count.items()), columns=['Name', 'Count'])
+df_unique_names = df_unique_names.sort_values(by = "Count",axis=0,ascending=False).head(20)
+print(df_unique_names,type(df_unique_names))
+fig = px.bar(df_unique_names, x='Name', y='Count', title='Count of Unique Names Top 20')
+st.plotly_chart(fig)
