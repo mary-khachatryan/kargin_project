@@ -2,16 +2,42 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 from pytube import YouTube
+import matplotlib.pyplot as plt
+
 
 
 def video_info(video_url):
     video = YouTube(video_url)
     likes_count = (video.initial_data["contents"]["twoColumnWatchNextResults"]["results"]["results"]["contents"][0]["videoPrimaryInfoRenderer"]["videoActions"]["menuRenderer"]["topLevelButtons"][0]["segmentedLikeDislikeButtonViewModel"]["likeButtonViewModel"]["likeButtonViewModel"]["toggleButtonViewModel"]["toggleButtonViewModel"]["defaultButtonViewModel"]["buttonViewModel"]["accessibilityText"]).split()[5]
+    views_count = video.views
+    name_video  = video.title
+    likes = int(likes_count.replace(",", ''))
+    print(likes)
+    lpv_persent = ((likes) * 100 / views_count)
+   
+    
+    labels = 'views', 'likes'
+    sizes = [100-lpv_persent, lpv_persent]
+    explode = (0, 0.1) 
+   
+    fig1, ax1 = plt.subplots(figsize=(2, 1))
+    wedges,text, autotexts = ax1.pie(sizes, explode=explode,
+        shadow=False, autopct='%0.1f%%', startangle=40)
+    ax1.axis('equal') 
+    ax1.legend(wedges,labels, loc="center left", bbox_to_anchor=(1, 0, 0.5, 0.5))
 
-    print(likes_count)
+    plt.setp(autotexts, size=4, weight="bold")
+    
+    ax1.set_title(name_video,size = 5)
+
+    st.pyplot(fig1,clear_figure=False, use_container_width=False)
+    
 
 
-video_info("https://www.youtube.com/watch?v=ojbbC020s3Q")
+st.write("Youtube link")
+video1 = st.text_input("Yutube link")
+if st.button("Hey"):
+    video_info(video1)
 
 
 
