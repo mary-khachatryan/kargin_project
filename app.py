@@ -16,13 +16,13 @@ def video_info(video_url):
     lpv_persent = ((likes) * 100 / views_count)
    
     
-    labels = 'views', 'likes'
+    labels = 'views without likes', 'likes'
     sizes = [100-lpv_persent, lpv_persent]
     explode = (0, 0.1) 
    
     fig1, ax1 = plt.subplots(figsize=(2, 1))
     wedges,text, autotexts = ax1.pie(sizes, explode=explode,
-        shadow=False, autopct='%0.1f%%', startangle=40)
+        shadow=False, autopct='%1.1f%%', startangle=40)
     ax1.axis('equal') 
     ax1.legend(wedges,labels, loc="center left", bbox_to_anchor=(1, 0, 0.5, 0.5))
 
@@ -33,11 +33,6 @@ def video_info(video_url):
     st.pyplot(fig1,clear_figure=False, use_container_width=False)
     
 
-
-st.write("Youtube link")
-video1 = st.text_input("Yutube link")
-if st.button("Hey"):
-    video_info(video1)
 
 
 
@@ -81,6 +76,13 @@ def statistic(column_name):
     # print(df_unique_names,type(df_unique_names))
     fig = px.bar(df_unique_names, x='Name', y='Count', title=f'Count of Unique {column_name} Top 20')
     st.plotly_chart(fig)
+
+
+st.write("YouTube Video Like Percentage Visualizer")
+video1 = st.text_input("Yutube link")
+if st.button("Next"):
+    video_info(video1)
+    
 
 
 statistic("Main_Actors")
